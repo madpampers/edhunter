@@ -93,30 +93,30 @@ public class Solution {
             int explain = players[curRound % 2].explaining;
             int understand = players[1 - curRound % 2].understanding;
             while (!cards.isEmpty() && timer > 0) {
-                int currentCardProgress = 0;
+                int cardProgress = 0;
                 Card card = cards.pollFirst();
-                if (unDoneCards.containsKey(card)) currentCardProgress = unDoneCards.get(card);
+                if (unDoneCards.containsKey(card)) cardProgress = unDoneCards.get(card);
 
                 int needTime = getNeededTime(explain,
                         understand,
                         card.difficulty,
-                        currentCardProgress);
+                        cardProgress);
 
                 if (needTime <= timer) {
                     timer -= needTime;
                     if (unDoneCards.containsKey(card)) unDoneCards.remove(card);
                     doneCards.add(card);
                 } else {
-                    currentCardProgress += timer;
-                    unDoneCards.put(card, currentCardProgress);
+                    cardProgress += timer;
+                    unDoneCards.put(card, cardProgress);
                     timer = 0;
                     cards.addLast(card);
                 }
             }
         }
 
-        private int getNeededTime(int explain, int understand, int difficulty, int currentCardProgress) {
-            return Math.max(1, difficulty - explain - understand - currentCardProgress);
+        private int getNeededTime(int explain, int understand, int difficulty, int cardProgress) {
+            return Math.max(1, difficulty - explain - understand - cardProgress);
         }
     }
 
