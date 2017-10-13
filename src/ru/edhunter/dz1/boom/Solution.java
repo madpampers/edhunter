@@ -6,14 +6,13 @@ import java.util.*;
 
 public class Solution {
     public static void main(String[] args) throws FileNotFoundException {
-        Solution solution = new Solution();
-        Solution.Game newGame = solution.new Game();
+        Game newGame = new Game();
         newGame.init();
         newGame.start();
         newGame.printResult();
     }
 
-    private class Game {
+    static class Game {
         private int curRound = 1;
         private int nOfTeams;
         private int nOfCards;
@@ -22,8 +21,8 @@ public class Solution {
         ArrayDeque<Card> cards;
 
         void init() throws FileNotFoundException {
-//            Scanner scanner = new Scanner(System.in);
-            Scanner scanner = new Scanner(new File("E:\\IDEA\\edhunter\\src\\ru\\edhunter\\dz1\\boom\\test"));
+            Scanner scanner = new Scanner(System.in);
+//            Scanner scanner = new Scanner(new File("E:\\IDEA\\edhunter\\src\\ru\\edhunter\\dz1\\boom\\test"));
             String[] gameProperties = scanner.nextLine().split(" ");
             nOfTeams = Integer.parseInt(gameProperties[0]);
             turnTimer = Integer.parseInt(gameProperties[1]);
@@ -74,69 +73,71 @@ public class Solution {
             }
         }
     }
+}
 
-    class Team {
-        int id;
-        Player[] players = new Player[2];
-        List<Card> doneCards = new ArrayList<>();
-        HashMap<Card, Integer> unDoneCards = new HashMap<>(
-        );
+class Team {
+    private int id;
+    private Player[] players = new Player[2];
+    List<Card> doneCards = new ArrayList<>();
+    private HashMap<Card, Integer> unDoneCards = new HashMap<>(
+    );
 
-        Team(Player playerOne, Player playerTwo, int id) {
-            players[0] = playerOne;
-            players[1] = playerTwo;
-            this.id = id;
-        }
+    Team(Player playerOne, Player playerTwo, int id) {
+        players[0] = playerOne;
+        players[1] = playerTwo;
+        this.id = id;
+    }
 
-        void makeTurn(ArrayDeque<Card> cards, int turnTimer, int curRound) {
-            int timer = turnTimer;
-            int explain = players[curRound % 2].explaining;
-            int understand = players[1 - curRound % 2].understanding;
-            while (!cards.isEmpty() && timer > 0) {
-                int cardProgress = 0;
-                Card card = cards.pollFirst();
-                if (unDoneCards.containsKey(card)) cardProgress = unDoneCards.get(card);
+    void makeTurn(ArrayDeque<Card> cards, int turnTimer, int curRound) {
+        int timer = turnTimer;
+        int explain = players[curRound % 2].explaining;
+        int understand = players[1 - curRound % 2].understanding;
+        while (!cards.isEmpty() && timer > 0) {
+            int cardProgress = 0;
+            Card card = cards.pollFirst();
+            if (unDoneCards.containsKey(card)) cardProgress = unDoneCards.get(card);
 
-                int needTime = getNeededTime(explain,
-                        understand,
-                        card.difficulty,
-                        cardProgress);
+            int needTime = getNeededTime(explain,
+                    understand,
+                    card.difficulty,
+                    cardProgress);
 
-                if (needTime <= timer) {
-                    timer -= needTime;
-                    if (unDoneCards.containsKey(card)) unDoneCards.remove(card);
-                    doneCards.add(card);
-                } else {
-                    cardProgress += timer;
-                    unDoneCards.put(card, cardProgress);
-                    timer = 0;
-                    cards.addLast(card);
-                }
+            if (needTime <= timer) {
+                timer -= needTime;
+                if (unDoneCards.containsKey(card)) unDoneCards.remove(card);
+                doneCards.add(card);
+            } else {
+                cardProgress += timer;
+                unDoneCards.put(card, cardProgress);
+                timer = 0;
+                cards.addLast(card);
             }
         }
-
-        private int getNeededTime(int explain, int understand, int difficulty, int cardProgress) {
-            return Math.max(1, difficulty - explain - understand - cardProgress);
-        }
     }
 
-    static class Player {
-        int understanding;
-        int explaining;
-
-        Player(int understanding, int explaining) {
-            this.understanding = understanding;
-            this.explaining = explaining;
-        }
+    private int getNeededTime(int explain, int understand, int difficulty, int cardProgress) {
+        return Math.max(1, difficulty - explain - understand - cardProgress);
     }
+}
 
-    public class Card {
-        String word;
-        int difficulty;
 
-        Card(String word, int difficulty) {
-            this.word = word;
-            this.difficulty = difficulty;
-        }
+class Player {
+    int understanding;
+    int explaining;
+
+    Player(int understanding, int explaining) {
+        this.understanding = understanding;
+        this.explaining = explaining;
+    }
+}
+
+
+class Card {
+    String word;
+    int difficulty;
+
+    Card(String word, int difficulty) {
+        this.word = word;
+        this.difficulty = difficulty;
     }
 }
