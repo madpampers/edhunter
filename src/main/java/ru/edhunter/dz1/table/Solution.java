@@ -10,19 +10,19 @@ public class Solution {
     private List<Entry> entries;
 
     public static void main(String[] args) throws FileNotFoundException {
-        Solution solution = new Solution();
+        final Solution solution = new Solution();
         solution.readInput();
         solution.sortTable(solution.entries, solution.columnNames, solution.criterias);
         solution.printTable(solution.entries);
     }
 
-    private void printTable(List<Entry> entries) {
+    private void printTable(final List<Entry> entries) {
         for (Entry entry : entries) {
             System.out.println(entry.toString());
         }
     }
 
-    private void sortTable(List<Entry> entries, List<String> columnNames, List<Criteria> criterias) {
+    private void sortTable(final List<Entry> entries, final List<String> columnNames, final List<Criteria> criterias) {
         Comparator<Entry> comparator = new Comparator<Entry>() {
             @Override
             public int compare(Entry entry1, Entry entry2) {
@@ -43,14 +43,14 @@ public class Solution {
     }
 
     private void readInput() throws FileNotFoundException {
-                Scanner scanner = new Scanner(System.in);
+        final Scanner scanner = new Scanner(System.in);
 //        Scanner scanner = new Scanner(new File("E:\\IDEA\\edhunter\\src\\ru\\edhunter\\dz1\\table\\test"));
         this.columnNames = readColumnNames(scanner);
         this.criterias = readCriterias(scanner);
         this.entries = readEntries(scanner);
     }
 
-    private static List<Entry> readEntries(Scanner scanner) {
+    private static List<Entry> readEntries(final Scanner scanner) {
         ArrayList<Entry> entries = new ArrayList<>();
         while (scanner.hasNextLine()) {
             String[] rawEntry = scanner.nextLine().split(" ");
@@ -59,7 +59,7 @@ public class Solution {
         return entries;
     }
 
-    private static List<Criteria> readCriterias(Scanner scanner) {
+    private static List<Criteria> readCriterias(final Scanner scanner) {
         String[] rawCriterias = scanner.nextLine().split(",");
         ArrayList<Criteria> criterias = new ArrayList<>();
         for (String rawCriteria : rawCriterias) {
@@ -69,19 +69,19 @@ public class Solution {
         return criterias;
     }
 
-    private static List<String> readColumnNames(Scanner scanner) {
+    private static List<String> readColumnNames(final Scanner scanner) {
         return Arrays.asList(scanner.nextLine().split(" "));
     }
 }
 
 class Entry {
-    private String[] data;
+    private final String[] data;
 
     String[] getData() {
         return data;
     }
 
-    Entry(String[] rawEntry) {
+    Entry(final String[] rawEntry) {
         this.data = rawEntry;
     }
 
@@ -96,8 +96,8 @@ class Entry {
 }
 
 class Criteria {
-    private String order;
-    private String parameter;
+    private final String order;
+    private final String parameter;
 
     String getOrder() {
         return order;
@@ -107,7 +107,7 @@ class Criteria {
         return parameter;
     }
 
-    Criteria(String parameter, String order) {
+    Criteria(final String parameter, final String order) {
         this.parameter = parameter;
         this.order = order;
     }

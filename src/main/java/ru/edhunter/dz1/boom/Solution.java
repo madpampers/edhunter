@@ -1,142 +1,181 @@
 package ru.edhunter.dz1.boom;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.*;
 
 public class Solution {
     public static void main(String[] args) throws FileNotFoundException {
-        Game newGame = new Game();
-        newGame.init();
+        Scanner scanner = new Scanner(System.in);
+//        Scanner scanner = new Scanner(new FileReader("E:\\IDEA\\edhunter\\src\\main\\java\\ru\\edhunter\\dz1\\boom\\test"));
+        final Game newGame = new Game(scanner);
         newGame.start();
         newGame.printResult();
     }
+}
 
-    static class Game {
-        private int curRound = 1;
-        private int nOfTeams;
-        private int nOfCards;
-        private int turnTimer;
-        List<Team> teams;
-        ArrayDeque<Card> cards;
+class Game {
+    private final int nOfTeams;
+    private final int turnTimer;
+    private final int nOfCards;
+    private final List<Team> teams;
+    private final Deque<Card> cards;
 
-        void init() throws FileNotFoundException {
-//            Scanner scanner = new Scanner(System.in);
-            Scanner scanner = new Scanner(new File("E:\\IDEA\\edhunter\\src\\ru\\edhunter\\dz1\\boom\\test"));
-            String[] gameProperties = scanner.nextLine().split(" ");
-            nOfTeams = Integer.parseInt(gameProperties[0]);
-            turnTimer = Integer.parseInt(gameProperties[1]);
-            teams = formTeams(scanner, nOfTeams);
-            nOfCards = Integer.parseInt(scanner.nextLine());
-            cards = formCards(scanner, nOfCards);
+    Game(Scanner scanner) {
+        DataReader.setScanner(scanner);
+        this.nOfTeams = DataReader.getTeamsNumber();
+        this.turnTimer = DataReader.getTimer();
+        this.teams = createTeams();
+        this.nOfCards = DataReader.getCardsNumber();
+        this.cards = createCards();
+    }
+
+    private List<Team> createTeams() {
+        List<Team> teams = new ArrayList<>();
+        for (int i = 0; i < nOfTeams; i++) {
+            teams.add(new Team(new Player(), new Player()));
         }
+        return teams;
+    }
 
-        private ArrayDeque<Card> formCards(Scanner scanner, int nOfCards) {
-            ArrayDeque<Card> cards = new ArrayDeque<>();
-            for (int i = 0; i < nOfCards; i++) {
-                cards.addLast(new Card(scanner.nextLine(), Integer.parseInt(scanner.nextLine())));
-            }
-            return cards;
+    private Deque<Card> createCards() {
+        Deque<Card> cards = new ArrayDeque<>();
+        for (int i = 0; i < nOfCards; i++) {
+            cards.addLast(new Card(DataReader.getNextCard(), DataReader.getCardDifficulty()));
         }
+        return cards;
+    }
 
-        private List<Team> formTeams(Scanner scanner, int nOfTeams) {
-            List<Team> teams = new ArrayList<>();
-            for (int i = 0; i < nOfTeams; i++) {
-                String[] playerProperties = scanner.nextLine().split(" ");
-                int p1Understanding = Integer.parseInt(playerProperties[0]);
-                int p1Explaining = Integer.parseInt(playerProperties[1]);
-                int p2Understanding = Integer.parseInt(playerProperties[2]);
-                int p2Explaining = Integer.parseInt(playerProperties[3]);
-                Player newPlayer1 = new Player(p1Understanding, p1Explaining);
-                Player newPlayer2 = new Player(p2Understanding, p2Explaining);
-                teams.add(new Team(newPlayer1, newPlayer2, i));
-            }
-            return teams;
-        }
-
-        void start() {
-            while (cards.size() > 0) {
-                for (Team team : teams) {
-                    team.makeTurn(cards, turnTimer, curRound);
-                }
-                curRound++;
-            }
-        }
-
-        void printResult() {
+    void start() {
+        while (cards.size() > 0) {
             for (Team team : teams) {
-                System.out.print(team.doneCards.size() + " ");
-                for (Card card : team.doneCards) {
-                    System.out.print(card.word + " ");
+                team.makeTurn(cards, turnTimer);
+            }
+        }
+    }
+
+    void printResult() {
+        for (Team team : teams) {
+            System.out.print(team.doneCards.size() + " ");
+            for (Card card : team.doneCards) {
+                System.out.print(card.word + " ");
+            }
+            System.out.println();
+        }
+    }
+
+
+    private static class Team {
+        private Player activePlayer;
+        private Player passivePlayer;
+        private List<Card> doneCards = new ArrayList<>();
+        private Map<Card, Integer> unDoneCards = new HashMap<>();
+
+        Team(Player playerOne, Player playerTwo) {
+            activePlayer = playerTwo;
+            passivePlayer = playerOne;
+        }
+
+        private void onEndOfTurn() {
+            Player player = activePlayer;
+            activePlayer = passivePlayer;
+            passivePlayer = player;
+        }
+
+        void makeTurn(final Deque<Card> cards, final int turnTimer) {
+            int timer = turnTimer;
+            while (!cards.isEmpty() && timer > 0) {
+                int cardProgress = 0;
+                Card card = cards.pollFirst();
+                if (unDoneCards.containsKey(card)) cardProgress = unDoneCards.get(card);
+
+                int needTime = getNeededTime(
+                        card.difficulty,
+                        cardProgress);
+
+                if (needTime <= timer) {
+                    timer -= needTime;
+                    if (unDoneCards.containsKey(card)) unDoneCards.remove(card);
+                    doneCards.add(card);
+                } else {
+                    cardProgress += timer;
+                    unDoneCards.put(card, cardProgress);
+                    timer = 0;
+                    cards.addLast(card);
                 }
-                System.out.println();
             }
+            this.onEndOfTurn();
+        }
+
+        private int getNeededTime(final int difficulty, final int cardProgress) {
+            return Math.max(1, difficulty - activePlayer.explaining - passivePlayer.understanding - cardProgress);
+        }
+    }
+
+
+    private static class Player {
+        int understanding;
+        int explaining;
+
+        Player() {
+            this.understanding = DataReader.getUnderstanding();
+            this.explaining = DataReader.getExplaining();
+        }
+
+        @Override
+        public String toString() {
+            return understanding + ", " + explaining;
+        }
+    }
+
+
+    private static class Card {
+        final String word;
+        final int difficulty;
+
+        Card(final String word, final int difficulty) {
+            this.word = word;
+            this.difficulty = difficulty;
         }
     }
 }
 
-class Team {
-    private int id;
-    private Player[] players = new Player[2];
-    List<Card> doneCards = new ArrayList<>();
-    private HashMap<Card, Integer> unDoneCards = new HashMap<>();
+class DataReader {
 
-    Team(Player playerOne, Player playerTwo, int id) {
-        players[0] = playerOne;
-        players[1] = playerTwo;
-        this.id = id;
+    static void setScanner(Scanner scanner) {
+        DataReader.scanner = scanner;
     }
 
-    void makeTurn(ArrayDeque<Card> cards, int turnTimer, int curRound) {
-        int timer = turnTimer;
-        int explain = players[curRound % 2].explaining;
-        int understand = players[1 - curRound % 2].understanding;
-        while (!cards.isEmpty() && timer > 0) {
-            int cardProgress = 0;
-            Card card = cards.pollFirst();
-            if (unDoneCards.containsKey(card)) cardProgress = unDoneCards.get(card);
+    private static Scanner scanner;
 
-            int needTime = getNeededTime(explain,
-                    understand,
-                    card.difficulty,
-                    cardProgress);
-
-            if (needTime <= timer) {
-                timer -= needTime;
-                if (unDoneCards.containsKey(card)) unDoneCards.remove(card);
-                doneCards.add(card);
-            } else {
-                cardProgress += timer;
-                unDoneCards.put(card, cardProgress);
-                timer = 0;
-                cards.addLast(card);
-            }
-        }
+    static int getTeamsNumber() {
+        return scanner.nextInt();
     }
 
-    private int getNeededTime(int explain, int understand, int difficulty, int cardProgress) {
-        return Math.max(1, difficulty - explain - understand - cardProgress);
+    static int getTimer() {
+        int timer = scanner.nextInt();
+        scanner.nextLine();
+        return timer;
     }
-}
 
-
-class Player {
-    int understanding;
-    int explaining;
-
-    Player(int understanding, int explaining) {
-        this.understanding = understanding;
-        this.explaining = explaining;
+    static int getUnderstanding() {
+        return scanner.nextInt();
     }
-}
 
+    static int getExplaining() {
+        return scanner.nextInt();
+    }
 
-class Card {
-    String word;
-    int difficulty;
+    static int getCardsNumber() {
+        scanner.nextLine();
+        return Integer.parseInt(scanner.nextLine());
+    }
 
-    Card(String word, int difficulty) {
-        this.word = word;
-        this.difficulty = difficulty;
+    static String getNextCard() {
+        return scanner.nextLine();
+    }
+
+    static int getCardDifficulty() {
+        return Integer.parseInt(scanner.nextLine());
     }
 }
