@@ -52,7 +52,7 @@ public class BankAccount {
             BankAccount.this.balance = BankAccount.this.balance + amount;
         }
 
-        public void credit(final int amount) throws InvalidOperationException {
+        public void withdraw(final int amount) throws InvalidOperationException {
             if (BankAccount.this.balance - amount < 0) throw new InvalidOperationException();
             BankAccount.this.balance = BankAccount.this.balance - amount;
         }

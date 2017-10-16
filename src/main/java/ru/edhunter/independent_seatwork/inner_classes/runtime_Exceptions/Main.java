@@ -10,12 +10,12 @@ public class Main {
         System.out.println(andreyCard.getBalance());
         andreyCard.deposit(1000);
         System.out.println(andreyCard.getBalance());
-        andreyCard.credit(500);
+        andreyCard.withdraw(500);
         System.out.println(andreyCard.getBalance());
         System.out.println(andreyCard.getAccountOwner());
         System.out.println(andreyCard.getCardNumber());
         try{
-        andreyCard.credit(5000);}
+        andreyCard.withdraw(5000);}
         catch (InvalidOperationException e) {
             System.out.println("Ошибка! На вашем счете недостаточно средств");
         }

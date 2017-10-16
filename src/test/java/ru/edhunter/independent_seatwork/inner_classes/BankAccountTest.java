@@ -29,14 +29,14 @@ public class BankAccountTest {
         Assert.assertEquals(2000, valdemarCard.getBalance());
         Assert.assertEquals(valdemarCard.getBalance(), bettyCard.getBalance());
 
-        bettyCard.credit(500);
+        bettyCard.withdraw(500);
 
         Assert.assertEquals(1500, valdemarCard.getBalance());
     }
 
     @Test(expected = InvalidOperationException.class)
     public void exceptionNegativeBalanceTest() {
-        bettyCard.credit(500);
+        bettyCard.withdraw(500);
     }
 
 //    @Test(expected = NoSuchCardException.class)
