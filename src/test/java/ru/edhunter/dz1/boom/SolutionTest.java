@@ -1,6 +1,7 @@
 package ru.edhunter.dz1.boom;
 
 import org.junit.*;
+
 import java.io.*;
 
 public class SolutionTest {
@@ -20,11 +21,11 @@ public class SolutionTest {
     @Before
     public void prepareTest() throws FileNotFoundException {
         System.setIn(new FileInputStream(dir + "\\boomTests\\" + tests[counter]));
-        System.setOut(new PrintStream(new File(dir+ "\\boomTests\\" + tests[counter] + "Out")));
+        System.setOut(new PrintStream(new File(dir + "\\boomTests\\" + tests[counter] + "Out")));
     }
 
     @AfterClass
-    public static void restoreSystemIO () throws IOException {
+    public static void restoreSystemIO() throws IOException {
         System.setIn(in);
         System.setOut(out);
         testRestored();
@@ -51,7 +52,7 @@ public class SolutionTest {
     private boolean checkIdentical() throws IOException {
         boolean result = true;
         BufferedReader reader = new BufferedReader(new FileReader(dir + "\\boomTests\\" + tests[counter] + "Out"));
-        BufferedReader reader1 = new BufferedReader(new FileReader(dir+ "\\boomTests\\" + tests[counter++] + "Controll"));
+        BufferedReader reader1 = new BufferedReader(new FileReader(dir + "\\boomTests\\" + tests[counter++] + "Controll"));
         while (reader1.ready()) {
             if (!reader.readLine().equals(reader1.readLine())) {
                 result = false;
@@ -62,8 +63,8 @@ public class SolutionTest {
     }
 
     private static void testRestored() throws IOException {
-        if(in.equals(System.in)&&out.equals(System.out)) {
+        if (in.equals(System.in) && out.equals(System.out)) {
             System.out.println("SystemIO restored: success");
-        }else System.out.println("SystemIO restored: failure");
+        } else System.out.println("SystemIO restored: failure");
     }
 }

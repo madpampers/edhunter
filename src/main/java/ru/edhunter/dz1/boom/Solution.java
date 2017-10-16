@@ -56,9 +56,9 @@ class Game {
 
     void printResult() {
         for (Team team : teams) {
-            System.out.print(team.doneCards.size() + " ");
+            System.out.print(team.doneCards.size());
             for (Card card : team.doneCards) {
-                System.out.print(card.word + " ");
+                System.out.print(" " + card.word);
             }
             System.out.println();
         }
