@@ -1,331 +1,313 @@
 package ru.edhunter.independent_seatwork.linked_list_realization;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import java.util.*;
 
 public class MyLinkedListTest {
-    private List<Integer> list = new MyLinkedList<>();
 
     @Test
-    public void test1() {
-        Assert.assertEquals(0, list.size()); //test init
-
-        list.add(2); //test add
-        list.add(3);
-        list.add(4);
-
-        Assert.assertEquals(3, list.size()); //test size
-
-        ListIterator<Integer> listIterator = list.listIterator();
-
-        Assert.assertEquals(listIterator.next(), listIterator.previous()); //test list iterator
-
-        int count = -1;
-        while (listIterator.hasNext()) {
-            listIterator.next();
-            count = listIterator.nextIndex();
-        }
-        Assert.assertEquals(list.size(), count);
-
-        while (listIterator.hasPrevious()) {
-            listIterator.previous();
-            count = listIterator.previousIndex();
-        }
-        Assert.assertEquals(-1, count);
-
-        while (listIterator.hasNext()) {
-            listIterator.next();
-            listIterator.remove();
-        }
-        Assert.assertEquals(0, list.size());
-
-        list.add(1);
-        list.add(2);
-        list.add(7);
-
-        listIterator = list.listIterator();
-
-        listIterator.add(4);
-        Assert.assertEquals(4, list.size());
-
-        Assert.assertTrue(list.get(0) == 4);
-
-        list.set(3, 9);
-        Assert.assertTrue(list.get(3) == 9);
-        Assert.assertTrue(9 == list.set(3, 3));
-
-        list.add(0, 5);
-        Assert.assertTrue(5 == list.get(0));
-        Assert.assertTrue(5 == list.size());
-        list.add(4, 99);
-        Assert.assertTrue(99 == list.get(4));
-        Assert.assertTrue(6 == list.size());
-        list.remove(4);
-        Assert.assertTrue(3 == list.get(4));
+    public void testInitialSize() {
+        final List<Integer> testList = new MyLinkedList<>();
+        assertEquals(0, testList.size());
     }
 
     @Test
-    public void test2() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        Assert.assertEquals(0, list.indexOf("a"));
-        Assert.assertEquals(2, list.indexOf("c"));
-        Assert.assertEquals(4, list.indexOf("e"));
-        list.add(0, "a");
-        Assert.assertEquals(1, list.lastIndexOf("a"));
-        Assert.assertEquals(3, list.indexOf("c"));
+    public void testIsEmpty() {
+        final List<Integer> testList = new MyLinkedList<>();
+        assertTrue(testList.isEmpty());
+        testList.add(4);
+        assertFalse(testList.isEmpty());
     }
 
     @Test
-    public void test3() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-
-        Iterator<String> iterator = list.iterator();
-        Assert.assertEquals("a", iterator.next());
-        iterator.next();
-        iterator.next();
-        iterator.next();
-        Assert.assertEquals("e", iterator.next());
+    public void testToArrayWithSmallArray() {
+        final List<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        testList.add(3);
+        final Integer[] input = new Integer[1];
+        final Integer[] result = testList.toArray(input);
+        assertNotEquals(input, result);
+        assertEquals((Integer) 1, result[0]);
+        assertEquals((Integer) 2, result[1]);
+        assertEquals((Integer) 3, result[2]);
+        assertEquals(3, result.length);
     }
 
     @Test
-    public void test4() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-
-        Object[] strings = list.toArray();
-        for (int i = 0; i < strings.length; i++) {
-            Assert.assertEquals(strings[i], list.get(i));
-        }
+    public void testToArrayWithCorrectArray() {
+        final List<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        testList.add(3);
+        final Integer[] input = new Integer[3];
+        final Integer[] result = testList.toArray(input);
+        assertEquals(input, result);
     }
 
     @Test
-    public void test5() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        List<String> list1 = new LinkedList<>();
-        list1.add("a");
-        list1.add("b");
-        list1.add("c");
+    public void testContains() {
+        final List<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        assertTrue(testList.contains(1));
+        assertFalse(testList.contains(0));
+    }
 
-        Assert.assertTrue(list.containsAll(list1));
+    @Test
+    public void testAdd() {
+        final List<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(1);
+        assertEquals(2, testList.size());
+        assertFalse(testList.isEmpty());
+    }
 
-        list1.add("bad");
-        Assert.assertFalse(list.containsAll(list1));
+    @Test
+    public void testRemoveFirstElement() {
+        final List<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        testList.remove(new Integer(1));
+        assertEquals(1, testList.size());
+        assertEquals(new Integer(2),testList.get(0));
+        assertFalse(testList.isEmpty());
+    }
 
-        List<String> test = new MyLinkedList<>();
-        test.add("a");
-        test.add("a");
-        test.add("b");
-        test.add("c");
-        test.add("bad");
-        test.add("b");
-        test.add("c");
-        test.add("d");
-        test.add("e");
+    @Test
+    public void testRemoveLastElement() {
+        final List<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        testList.remove(new Integer(2));
+        assertEquals(1, testList.size());
+        assertFalse(testList.isEmpty());
+    }
 
-        list.addAll(1, list1);
-        Assert.assertTrue(list.size() == test.size());
-        int i = 0;
-        for (String string : list) {
-            Assert.assertEquals(string, test.get(i++));
-        }
+    @Test
+    public void testContainsAll() {
+        final List<Integer> testList = new MyLinkedList<>();
+        final List<Integer> testList2 = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        testList2.add(2);
+        testList2.add(1);
+        assertTrue(testList.containsAll(testList2));
+    }
 
-        list.removeAll(list1);
-        Assert.assertEquals(2, list.size());
+    @Test
+    public void testAddAll() {
+        final List<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        testList.add(3);
+        testList.add(4);
+        assertTrue(testList.contains(3));
+        assertTrue(testList.contains(4));
+    }
 
-        test.retainAll(list1);
-        Assert.assertEquals(7, test.size());
+    @Test
+    public void testRemoveAll() {
+        final List<Integer> testList = new MyLinkedList<>();
+        final List<Integer> testList2 = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        testList2.add(2);
+        testList2.add(3);
+        testList.removeAll(testList2);
+        assertEquals(1, testList.size());
+        assertTrue(testList.contains(1));
+    }
+
+    @Test
+    public void testRetainAll() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        final MyLinkedList<Integer> testList2 = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        testList2.add(2);
+        testList2.add(3);
+        testList.retainAll(testList2);
+        assertEquals(1, testList.size());
+        assertTrue(testList.contains(2));
+    }
+
+    @Test
+    public void testClear() {
+        final List<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(1);
+        testList.clear();
+        assertTrue(testList.isEmpty());
+        assertEquals(0, testList.size());
+    }
+
+    @Test
+    public void testRemoveByIndex() {
+        final List<String> testList = new MyLinkedList<>();
+        testList.add("a");
+        testList.add("b");
+        testList.add("c");
+        testList.add("d");
+        assertEquals("b", testList.remove(1));
+        assertEquals(3, testList.size());
+        assertEquals("d", testList.remove(2));
+        assertEquals(2, testList.size());
+        assertEquals("a", testList.remove(0));
+        assertEquals(1, testList.size());
+        testList.remove(0);
+        assertEquals(0, testList.size());
+
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testRemoveWithIncorrectIndex() {
+        final List<String> testList = new MyLinkedList<>();
+        testList.add("a");
+        testList.remove(5);
     }
 
     @Test(expected = IllegalStateException.class)
-    public void test6() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        ListIterator<String> iterator = list.listIterator();
+    public void testRemoveBeforeNext() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        testList.add(2);
+        final Iterator<Integer> iterator = testList.iterator();
         iterator.remove();
+
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testNextOnEmptyCollection() {
+        final List<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        final Iterator<Integer> iterator = testList.iterator();
+        iterator.next();
+        iterator.remove();
+        iterator.next();
+        iterator.remove();
+        iterator.next();
+    }
+
+    @Test
+    public void testHasPreviousWhenIteratorAtTheEndOfTheCollection() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        final ListIterator<Integer> listIterator = testList.listIterator();
+        listIterator.next();
+        assertTrue(listIterator.hasPrevious());
+    }
+
+    @Test
+    public void testPreviousIndexWhenItEqualsTo1() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(1);
+
+        final ListIterator<Integer> listIterator = testList.listIterator();
+        listIterator.next();
+        listIterator.next();
+
+        assertEquals(1, listIterator.previousIndex());
     }
 
     @Test(expected = IllegalStateException.class)
-    public void test7() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        ListIterator<String> iterator = list.listIterator();
-        iterator.next();
-        iterator.add("f");
-        iterator.remove();
+    public void testSetWhenNeitherNextNorPreviousHaveBeenCalled() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        final ListIterator<Integer> listIterator = testList.listIterator();
+        listIterator.set(null);
+    }
+
+    @Test
+    public void testSet() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        final ListIterator<Integer> listIterator = testList.listIterator();
+        listIterator.next();
+        listIterator.set(2);
+        assertEquals((Integer) 2, testList.get(0));
+    }
+
+    @Test
+    public void testPreviousOnCollectionWithOneElement() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        final ListIterator<Integer> listIterator = testList.listIterator();
+        final Integer next = listIterator.next();
+        final Integer previous = listIterator.previous();
+        assertEquals(next, previous);
+    }
+
+    @Test
+    public void testPreviousIndex() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        final ListIterator<Integer> listIterator = testList.listIterator();
+        listIterator.next();
+        assertEquals(0, listIterator.previousIndex());
+    }
+
+    @Test
+    public void testPreviousIndexWhenEmptyCollection() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        final ListIterator<Integer> listIterator = testList.listIterator();
+        assertEquals(-1, listIterator.previousIndex());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testPreviousWhenEmptyCollection() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        final ListIterator<Integer> listIterator = testList.listIterator();
+        listIterator.previous();
+    }
+
+    @Test
+    public void testHasPreviousWhenEmptyCollection() {
+        final MyLinkedList<Integer> testList = new MyLinkedList<>();
+        final ListIterator<Integer> listIterator = testList.listIterator();
+        assertFalse(listIterator.hasPrevious());
     }
 
     @Test(expected = IllegalStateException.class)
-    public void test8() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        ListIterator<String> iterator = list.listIterator();
+    public void testRemoveTwoTimes() {
+        final List<Integer> testList = new MyLinkedList<>();
+        testList.add(1);
+        testList.add(2);
+        final Iterator<Integer> iterator = testList.iterator();
         iterator.next();
         iterator.remove();
+        assertEquals(1, testList.size());
         iterator.remove();
     }
 
-    @Test(expected = ConcurrentModificationException.class)
-    public void test9() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        ListIterator<String> iterator = list.listIterator();
-        iterator.next();
-        list.remove("a");
-        iterator.next();
-    }
-
-    @Test(expected = ConcurrentModificationException.class)
-    public void test10() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        List<String> list1 = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        ListIterator<String> iterator = list.listIterator();
-        list.removeAll(list1);
-        iterator.next();
-    }
-
-    @Test(expected = ConcurrentModificationException.class)
-    public void test11() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        for (String string : list) {
-            list.remove(string);
+    @Test
+    public void testReverseMethod() {
+        final MyLinkedList<String> testList = new MyLinkedList<>();
+        testList.add("a");
+        testList.add("b");
+        testList.add("c");
+        testList.add("d");
+        testList.add("e");
+        final MyLinkedList<String> controlTestList = new MyLinkedList<>();
+        controlTestList.add("e");
+        controlTestList.add("d");
+        controlTestList.add("c");
+        controlTestList.add("b");
+        controlTestList.add("a");
+        testList.reverse();
+        int count = 0;
+        for (String string : testList) {
+            assertEquals(string,controlTestList.get(count++));
         }
-    }
-
-    @Test
-    public void test12() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-
-        ListIterator<String> iterator = list.listIterator();
-        for (int i = 0; i < 10; i++) {
-            Assert.assertEquals(iterator.next(), iterator.previous());
-        }
-    }
-
-    @Test
-    public void test13() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-
-        list.clear();
-        Assert.assertEquals(0, list.size());
-        list.add("f");
-        Assert.assertEquals(0,list.indexOf("f"));
-        Assert.assertEquals("f", list.get(list.size()-1));
-    }
-
-    @Test
-    public void test14() {
-        MyLinkedList<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        MyLinkedList<String> list1 = new MyLinkedList<>();
-        list1.add("a");
-        list1.add("b");
-        list1.add("c");
-        list1.add("d");
-        list1.add("e");
-
-        list.reverse();
-
-        int i = list.size()-1;
-        for (String string : list1) {
-            Assert.assertEquals(string, list.get(i--));
-        }
-
-    }
-
-    @Test
-    public void test15() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-
-        List<String> subList = list.subList(2,list.size());
-
-        int i = 2;
-        for (String string : subList) {
-            Assert.assertEquals(string, list.get(i++));
-        }
-    }
-
-    @Test
-    public void test16() {
-        List<String> list = new MyLinkedList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        String[] a = new String[3];
-        String[] b = list.toArray(a);
-
-        for (String string : b) {
-            System.out.println(string);
+        testList.reverse();
+        count = 4;
+        for (String string : testList) {
+            assertEquals(string, controlTestList.get(count--));
         }
     }
 }
