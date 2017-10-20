@@ -2,7 +2,6 @@ package ru.edhunter.independent_seatwork.linked_list_realization;
 
 import java.lang.reflect.Array;
 import java.util.*;
-import java.util.function.Consumer;
 
 public class MyLinkedList<T> implements List<T> {
     private Node<T> head = new Node<>(null);
@@ -10,7 +9,7 @@ public class MyLinkedList<T> implements List<T> {
     private int size;
     private int modCount;
 
-    MyLinkedList() {
+    public MyLinkedList() {
         head.next = end;
         end.previous = head;
     }
@@ -26,7 +25,7 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(final Object o) {
         return indexOf(o) != -1;
     }
 
@@ -37,7 +36,7 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-        Object[] array = new Object[size];
+        final Object[] array = new Object[size];
         int count = 0;
         Node<T> node = head.next;
         while (count < size) {
@@ -69,7 +68,7 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public boolean add(T t) {
+    public boolean add(final T t) {
         Node<T> newNode = new Node<>(t);
         newNode.previous = end.previous;
         newNode.next = end;
@@ -81,29 +80,33 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(final Object o) {
         Node<T> node = head.next;
         modCount++;
         if (o == null) {
-            if (node.value == null) {
-                node.next.previous = node.previous;
-                node.previous.next = node.next;
-                size--;
-                return true;
+            for (; node != end; node = node.next) {
+                if (node.value == null) {
+                    node.next.previous = node.previous;
+                    node.previous.next = node.next;
+                    size--;
+                    return true;
+                }
             }
         } else {
-            if (node.value.equals(o)) {
-                node.next.previous = node.previous;
-                node.previous.next = node.next;
-                size--;
-                return true;
+            for (; node != end; node = node.next) {
+                if (node.value.equals(o)) {
+                    node.next.previous = node.previous;
+                    node.previous.next = node.next;
+                    size--;
+                    return true;
+                }
             }
         }
         return false;
     }
 
     @Override
-    public boolean containsAll(Collection<?> c) {
+    public boolean containsAll(final Collection<?> c) {
         for (Object o : c) {
             if (!this.contains(o)) return false;
         }
@@ -111,13 +114,13 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(Collection<? extends T> c) {
+    public boolean addAll(final Collection<? extends T> c) {
         return addAll(size, c);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean addAll(int index, Collection<? extends T> c) {
+    public boolean addAll(final int index, final Collection<? extends T> c) {
         if (index <= size && index >= 0) {
             Node<T> from;
             Node<T> to;
@@ -150,7 +153,8 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public boolean removeAll(Collection<?> c) {
+    public boolean removeAll(final Collection<?> c) {
+        modCount++;
         Node check = head.next;
         int count = 0;
         boolean result = false;
@@ -159,19 +163,18 @@ public class MyLinkedList<T> implements List<T> {
                 check.previous.next = check.next;
                 check.next.previous = check.previous;
                 check.value = null;
-                check = check.next;
                 size--;
                 result = true;
             } else {
                 count++;
             }
-            modCount++;
+            check = check.next;
         }
         return result;
     }
 
     @Override
-    public boolean retainAll(Collection<?> c) {
+    public boolean retainAll(final Collection<?> c) {
         Node check = head.next;
         int count = 0;
         boolean result = false;
@@ -209,7 +212,7 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public T get(int index) {
+    public T get(final int index) {
         if (index < size && index >= 0) {
             int count = 0;
             Node<T> node = head.next;
@@ -222,7 +225,7 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public T set(int index, T element) {
+    public T set(final int index, final T element) {
         if (index < size && index >= 0) {
             Node<T> node = head.next;
             int count = 0;
@@ -238,7 +241,7 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public void add(int index, T element) {
+    public void add(final int index, final T element) {
         if (index < size && index >= 0) {
             Node<T> node = new Node<>(element);
             Node<T> previous = head;
@@ -257,7 +260,7 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public T remove(int index) {
+    public T remove(final int index) {
         if (index < size && index >= 0) {
             Node<T> node = head.next;
             int count = 0;
@@ -269,12 +272,13 @@ public class MyLinkedList<T> implements List<T> {
             node.next.previous = node.previous;
             node.previous.next = node.next;
             modCount++;
+            size--;
             return t;
         } else throw new IndexOutOfBoundsException();
     }
 
     @Override
-    public int indexOf(Object o) {
+    public int indexOf(final Object o) {
         int index = 0;
         Node<T> node = head.next;
         while (node != end) {
@@ -296,7 +300,7 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public int lastIndexOf(Object o) {
+    public int lastIndexOf(final Object o) {
         int index = size - 1;
         Node<T> node = end.previous;
         while (node != head) {
@@ -329,7 +333,7 @@ public class MyLinkedList<T> implements List<T> {
     }
 
     @Override
-    public List<T> subList(int fromIndex, int toIndex) {
+    public List<T> subList(final int fromIndex, final int toIndex) {
         List<T> subList = new MyLinkedList<>();
         for (int i = fromIndex; i < toIndex; i++) {
             subList.add(this.get(i));
@@ -375,7 +379,7 @@ public class MyLinkedList<T> implements List<T> {
             }
         }
 
-        MyListIterator(int index) {
+        MyListIterator(final int index) {
             if (index < size && index >= 0) {
                 int count = 0;
                 nextNode = head.next;
@@ -445,7 +449,7 @@ public class MyLinkedList<T> implements List<T> {
         }
 
         @Override
-        public void set(T t) {
+        public void set(final T t) {
             checkForOtherModif();
             if (lastNode == null) {
                 throw new IllegalStateException();
@@ -454,7 +458,7 @@ public class MyLinkedList<T> implements List<T> {
         }
 
         @Override
-        public void add(T t) {
+        public void add(final T t) {
             checkForOtherModif();
             Node<T> newNode = new Node<>(t);
             newNode.previous = nextNode.previous;
@@ -474,10 +478,22 @@ public class MyLinkedList<T> implements List<T> {
     private class MyIterator implements Iterator<T> {
         private int index;
         private Node<T> nextNode;
+        private Node<T> currentNode;
         private int iteratorModCount = modCount;
 
         MyIterator() {
             nextNode = head.next;
+        }
+
+        @Override
+        public void remove() {
+            if (currentNode != null) {
+                currentNode.previous.next = nextNode;
+                nextNode.previous = currentNode.previous;
+                currentNode = null;
+                size--;
+                index--;
+            } else throw new IllegalStateException();
         }
 
         @Override
@@ -490,7 +506,8 @@ public class MyLinkedList<T> implements List<T> {
             if (!hasNext()) throw new NoSuchElementException();
             if (modCount != iteratorModCount) throw new ConcurrentModificationException();
             index++;
-            T value = nextNode.value;
+            currentNode = nextNode;
+            T value = currentNode.value;
             nextNode = nextNode.next;
             return value;
         }
