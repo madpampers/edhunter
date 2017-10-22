@@ -68,7 +68,7 @@ public class MyHashMap<K, V> implements Map<K, V> {
     }
 
     @SuppressWarnings("all")
-    private static class Entry<K, V> {
+    private static class Entry<K, V> { //вспомогательный класс хрянящий ключ-значение
         private final K key;
         private V value;
 
