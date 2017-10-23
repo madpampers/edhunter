@@ -164,8 +164,8 @@ public class MyHashMapTest {
         }
         finish = new Date().getTime();
         Long myMapResult = finish - start;
-        assertEquals(true, myMapResult < arrayListResult/10);
 
+        assertEquals(true, myMapResult < arrayListResult/10);
     }
 
 }

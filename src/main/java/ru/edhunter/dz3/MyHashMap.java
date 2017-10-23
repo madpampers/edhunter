@@ -1,6 +1,6 @@
 package ru.edhunter.dz3;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MyHashMap<K, V> implements Map<K, V> {
@@ -10,9 +10,9 @@ public class MyHashMap<K, V> implements Map<K, V> {
     @SuppressWarnings("all")
     public MyHashMap(final int length) {
         //какая то проблема с созданием типизированного массива, лучше использовать коллекцию в таких случаях наверное
-        mapCells = new ArrayList[length];
+        mapCells = new LinkedList[length];
         for (int i = 0; i < length; i++) {
-            mapCells[i] = new ArrayList<Entry<K, V>>();
+            mapCells[i] = new LinkedList<Entry<K, V>>();
         }
     }
 
@@ -49,11 +49,11 @@ public class MyHashMap<K, V> implements Map<K, V> {
         return this.size;
     }
 
-    private int getCell(final K key) { //метод определяет нужный бакет по хешкоду
+    private int getCell(final K key) { //метод определяет нужный бакет с Entry по хешкоду
         return key.hashCode() % mapCells.length;
     }
 
-    private List<Entry<K, V>> getList(K key) {//получаем список из нужного бакета
+    private List<Entry<K, V>> getList(K key) {//получаем список Entry из нужного бакета
         return mapCells[getCell(key)];
     }
 
