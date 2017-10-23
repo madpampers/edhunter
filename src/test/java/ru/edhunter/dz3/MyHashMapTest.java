@@ -104,14 +104,14 @@ public class MyHashMapTest {
     }
 
     @Test
-    public void testBenchAddingElement() {
+    public void testBenchSettingOrPuttingElement() {
         //Тестируем обычный ЛинкедЛист (сложность O(n))
         Long start = new Date().getTime();
         for (int i = 0; i < 50000; i++) {
             list.set(Math.abs(random.nextInt(list.size())), Math.abs(random.nextInt()));
         }
         Long finish = new Date().getTime();
-        Long arrayListResult = finish - start; //считаем за какое время лист управился
+        Long listResult = finish - start; //считаем за какое время лист управился
         //Теперь тестируем нашу имплементацию HashMap (сложность O(1))
         start = new Date().getTime();
         for (int i = 0; i < 50000; i++) {
@@ -120,43 +120,51 @@ public class MyHashMapTest {
         finish = new Date().getTime();
         Long myMapResult = finish - start;//получаем время работы нашей мапы
         //сравним результаты, если результат отличается более чем в 10 раз (условно) тест проходит
-        assertEquals(true, myMapResult < arrayListResult/10);
+        assertEquals(true, myMapResult < listResult/10);
         //остальные тесты сделаны по принципу этого теста, только тестируют другие методы
     }
 
     @Test
     @SuppressWarnings("all")
-    public void testBenchGetElement() {
+    public void testBenchGetRandomElement() {
 
         Long start = new Date().getTime();
         for (int i = 0; i < 50000; i++) {
-            list.get(Math.abs(random.nextInt(list.size())));
+            list.get(Math.abs(random.nextInt(49999)));
         }
         Long finish = new Date().getTime();
-        Long arrayListResult = finish - start;
+        Long listResult = finish - start;
+
+        for (int i = 0; i < 50000; i++) {
+            myMap.put(i, i);
+        }
 
         start = new Date().getTime();
         for (int i = 0; i < 50000; i++) {
-            myMap.get(Math.abs(random.nextInt()));
+            myMap.get(Math.abs(random.nextInt(49999)));
         }
         finish = new Date().getTime();
         Long myMapResult = finish - start;
 
-        assertEquals(true, myMapResult < arrayListResult/10);
+        assertEquals(true, myMapResult < listResult/10);
 
     }
 
 
     @Test
     @SuppressWarnings("all")
-    public void testBenchRemoveElement() {
+    public void testBenchRemoveRandomElement() {
 
         Long start = new Date().getTime();
         for (int i = 0; i < 50000; i++) {
             list.remove(Math.abs(random.nextInt(list.size())));
         }
         Long finish = new Date().getTime();
-        Long arrayListResult = finish - start;
+        Long listResult = finish - start;
+
+        for (int i = 0; i < 50000; i++) {
+            myMap.put(i, i);
+        }
 
         start = new Date().getTime();
         for (int i = 0; i < 50000; i++) {
@@ -165,7 +173,7 @@ public class MyHashMapTest {
         finish = new Date().getTime();
         Long myMapResult = finish - start;
 
-        assertEquals(true, myMapResult < arrayListResult/10);
+        assertEquals(true, myMapResult < listResult/10);
     }
 
 }
