@@ -24,7 +24,7 @@ public class Model {
         String copyPCQuery = "COPY pc (model, speed, ram, hd, cd, price)FROM 'E:\\IDEA\\edhunter\\src\\main\\resources\\pc_raws.csv' CSV;";
         String copyLaptopQuery = "COPY laptop (model, speed, ram, hd, price, screen)FROM 'E:\\IDEA\\edhunter\\src\\main\\resources\\laptop_raws.csv' CSV;";
         String copyPrinterQuery = "COPY printer (model, color, type, price)FROM 'E:\\IDEA\\edhunter\\src\\main\\resources\\printer_raws.csv' CSV;";
-        String copyProductQuery = "COPY product (maker, model, type)FROM 'E:\\IDEA\\edhunter\\src\\main\\resources\\product_raws' CSV;";
+        String copyProductQuery = "COPY product (maker, model, type)FROM product_raws.csv CSV;";
 
 
         try (Connection connection = DriverManager.getConnection(url, user, password);
