@@ -69,7 +69,7 @@ public class BeanUtils {
     /**
      * checking method for being setter
      *
-     * @param method method that checks
+     * @param method method that we check for being setter
      * @return returns true, if method setter, false otherwise
      */
     private static boolean isSetter(Method method) {
