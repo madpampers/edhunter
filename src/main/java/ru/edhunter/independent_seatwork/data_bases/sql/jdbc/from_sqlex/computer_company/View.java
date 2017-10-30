@@ -3,5 +3,5 @@ package ru.edhunter.independent_seatwork.data_bases.sql.jdbc.from_sqlex.computer
         import java.util.List;
 
 public abstract class View {
-    protected abstract void showQuery(List<String> products);
+    protected abstract void printQuery(List<String> products);
 }

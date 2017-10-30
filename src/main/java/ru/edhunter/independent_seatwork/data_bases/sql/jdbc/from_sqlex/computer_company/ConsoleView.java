@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ConsoleView extends View {
     @Override
-    protected void showQuery(List<String> products) {
+    protected void printQuery(List<String> products) {
         for (String product : products) {
             System.out.println(product);
         }

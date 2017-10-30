@@ -1,6 +1,5 @@
 package ru.edhunter.independent_seatwork.data_bases.sql.jdbc.from_sqlex.computer_company;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 class Controller {
@@ -17,7 +16,7 @@ class Controller {
             System.out.println("Такого товара нет");
         } else {
             List<String> productModels = model.doQuery("select model from " + s);
-            view.showQuery(productModels);
+            view.printQuery(productModels);
         }
     }
 }
