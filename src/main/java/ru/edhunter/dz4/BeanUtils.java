@@ -80,7 +80,7 @@ public class BeanUtils {
     /**
      * checking method for being getter
      *
-     * @param method method that checks
+     * @param method method that we check for being getter
      * @return returns true, if method getter, false otherwise
      */
     private static boolean isGetter(Method method) {
