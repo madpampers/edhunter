@@ -1,4 +1,4 @@
-package ru.edhunter.dz4;
+package ru.edhunter.dz4.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,7 +18,7 @@ public class BeanUtils {
      * @param to   Object which properties will be set.
      * @param from Object which properties will be used to get values.
      */
-    public static void assign(Object to, Object from) throws InvocationTargetException, IllegalAccessException {
+    public static void assign(final Object to, final Object from) throws InvocationTargetException, IllegalAccessException {
         final Method[] methods = from.getClass().getMethods();
 
         for (Method method : methods) {
@@ -39,7 +39,7 @@ public class BeanUtils {
      * @param correspondentSetter     Setter, that was chosen with findCorrespondentSetter(...) method
      * @param returnValueOfFromGetter Object, returned by Object which properties will be used to get values
      */
-    private static void invokeSetter(Method correspondentSetter, Object to, Object returnValueOfFromGetter)
+    private static void invokeSetter(final Method correspondentSetter,final Object to, final Object returnValueOfFromGetter)
             throws InvocationTargetException, IllegalAccessException {
 
         correspondentSetter.invoke(to, returnValueOfFromGetter);
@@ -53,7 +53,7 @@ public class BeanUtils {
      * @param returnType type of return value of getter
      * @return returns setter that corresponds  getter, null otherwise
      */
-    private static Method findCorrespondentSetter(Object to, Class<?> returnType) {
+    private static Method findCorrespondentSetter(final Object to,final Class<?> returnType) {
         final Method[] methods = to.getClass().getMethods();
 
         for (Method method : methods) {
@@ -69,10 +69,10 @@ public class BeanUtils {
     /**
      * checking method for being setter
      *
-     * @param method method that we check for being setter
+     * @param method method which scans for being setter
      * @return returns true, if method setter, false otherwise
      */
-    private static boolean isSetter(Method method) {
+    private static boolean isSetter(final Method method) {
         return (method.getName().startsWith("set")
                 && method.getParameterCount() == 1);
     }
@@ -83,7 +83,7 @@ public class BeanUtils {
      * @param method method that we check for being getter
      * @return returns true, if method getter, false otherwise
      */
-    private static boolean isGetter(Method method) {
+    private static boolean isGetter(final Method method) {
         return ((method.getName().startsWith("get") || method.getName().startsWith("is"))
                 && method.getParameterCount() == 0
                 && method.getReturnType() != void.class);
@@ -95,7 +95,7 @@ public class BeanUtils {
      * @param setter setter, which parameter type we need to check
      * @return returns type of setter parameter
      */
-    private static Class<?> getSetterParameterType(Method setter) {
+    private static Class<?> getSetterParameterType(final Method setter) {
         final Class<?>[] parameterTypes = setter.getParameterTypes();
         return parameterTypes[0];
     }

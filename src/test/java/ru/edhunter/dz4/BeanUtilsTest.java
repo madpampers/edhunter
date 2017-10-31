@@ -2,6 +2,8 @@ package ru.edhunter.dz4;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.edhunter.dz4.BeanUtils.BeanUtils;
+
 import java.lang.reflect.InvocationTargetException;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,24 +16,26 @@ public class BeanUtilsTest {
 
     @Before
     public void prepareTest1() {
-        personA = new Person("Vova", 15);
-        personB = new Person("Dima", 20);
+        personA = new Person("Vova", 15, true);
+        personB = new Person("Lena", 20, false);
     }
 
     @Test
     public void testSameTypes() throws InvocationTargetException, IllegalAccessException {
-        Person fromPerson = new Person(personA.getName(), personA.getAge());
+        Person fromPerson = new Person(personA.getName(), personA.getAge(), personA.isMale());
         BeanUtils.assign(personB, personA);
         assertEquals(personA.getName(), personB.getName());
         assertEquals(personA.getAge(), personB.getAge());
+        assertEquals(personA.isMale(), personB.isMale());
         assertEquals(fromPerson.getName(), personB.getName());
         assertEquals(fromPerson.getAge(), personB.getAge());
+        assertEquals(fromPerson.isMale(), personB.isMale());
     }
 
     @Before
     public void prepareTest2() {
-        personA = new Person("Vova", 15);
-        personB = new Person("Dima", 20);
+        personA = new Person("Vova", 15, true);
+        personB = new Person("Dima", 20, true);
         personA.setPet(new Cat());
 }
 
@@ -43,7 +47,7 @@ public class BeanUtilsTest {
 
     @Before
     public void prepareTest3() throws InvocationTargetException, IllegalAccessException {
-        personA = new Person("Vova", 15);
+        personA = new Person("Vova", 15, true);
         pet = new Cat();
         pet.setName("murka");
         pet.setAge(2);
@@ -59,7 +63,7 @@ public class BeanUtilsTest {
 
     @Before
     public void prepareTest4() throws InvocationTargetException, IllegalAccessException {
-        personA = new Person("Vova", 15);
+        personA = new Person("Vova", 15, true);
         personC = new PersonWithIncorrectSetter("Vasia", 20);
     }
 
@@ -94,7 +98,7 @@ public class BeanUtilsTest {
     @Test
     public void testSomeThing () throws InvocationTargetException, IllegalAccessException {
         Tester tester = new Tester();
-        personA = new Person("Petya", 26);
+        personA = new Person("Petya", 26, true);
 
         BeanUtils.assign(personA, tester);
         assertEquals(26, personA.getAge());
