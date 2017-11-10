@@ -162,6 +162,24 @@ public class TestCountMap {
     }
 
     @Test
+    public void testToMap () {
+        CountMap<Fruit> sourceFruitCountMap = new HashCountMapImpl<>();
+
+        sourceFruitCountMap.add(new Apple(2));
+        sourceFruitCountMap.add(new Fruit(2));
+        sourceFruitCountMap.add(new Pineapple(4));
+
+        Map<Fruit, Integer> fruitMap = sourceFruitCountMap.toMap();
+
+        assertEquals(3, fruitMap.size());
+        for (Fruit fruit : fruitMap.keySet()) {
+            int value = fruitMap.get(fruit);
+            int count = sourceFruitCountMap.getCount(fruit);
+            assertEquals(count, value);
+        }
+    }
+
+    @Test
     public void testToMapWithMapInArgument () {
         Map<Fruit, Integer> fruitMap = new HashMap<>();
 
