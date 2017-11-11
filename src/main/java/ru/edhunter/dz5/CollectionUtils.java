@@ -133,7 +133,7 @@ public final class CollectionUtils {
      * @param max  maximal element, that acceptable for result List.
      * @return List of elements, where every element is in range from 'min' to 'max' (included).
      */
-    public static <T extends Object & Comparable<? super T>> List<T> range(List<? extends T> list, T min, T max) {
+    public static <T extends Comparable<? super T>> List<T> range(List<? extends T> list, T min, T max) {
         List<T> range = createNewList(list);
         for (T element : list) {
             if (element.compareTo(min) >= 0 && element.compareTo(max) <= 0) {
@@ -171,7 +171,7 @@ public final class CollectionUtils {
      * @return new instance of List, based on instanceOF of specified list.
      */
     private static <T> List<T> createNewList(List<?> list) {
-        if (list instanceof LinkedList) {
+        if (list instanceof LinkedList<?>) {
             return new LinkedList<>();
         } else {
             return new ArrayList<>();
