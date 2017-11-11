@@ -13,7 +13,7 @@ import java.util.LinkedList;
  */
 public final class CollectionUtils {
     /**
-     * Constructor is private, to prevent inheritance.
+     * Constructor is private, to prevent instancing.
      */
     private CollectionUtils() {
     }
