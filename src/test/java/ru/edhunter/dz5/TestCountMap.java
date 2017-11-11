@@ -46,7 +46,7 @@ public class TestCountMap {
     }
 
     @Test
-    public void testDifferentSubclassesInMap () {
+    public void testDifferentSubclassesInMap() {
         CountMap<Fruit> fruitCountMap = new HashCountMapImpl<>();
         fruitCountMap.add(new Fruit(2));
         fruitCountMap.add(new Fruit(2));
@@ -66,7 +66,7 @@ public class TestCountMap {
     }
 
     @Test
-    public void testRemoveFromCountMap () {
+    public void testRemoveFromCountMap() {
         CountMap<String> stringCountMap = new HashCountMapImpl<>();
 
         stringCountMap.add("three");
@@ -76,7 +76,7 @@ public class TestCountMap {
         stringCountMap.add("two");
         stringCountMap.add("three");
 
-        assertEquals(3,stringCountMap.size());
+        assertEquals(3, stringCountMap.size());
 
         assertEquals(3, stringCountMap.remove("three"));
         assertEquals(2, stringCountMap.size());
@@ -91,7 +91,7 @@ public class TestCountMap {
     }
 
     @Test
-    public void testAddAllCountMap () {
+    public void testAddAllCountMap() {
         CountMap<Integer> destinationIntegerCountMap = new HashCountMapImpl<>();
 
         destinationIntegerCountMap.add(10);
@@ -114,7 +114,7 @@ public class TestCountMap {
     }
 
     @Test
-    public void testAddAllCountMapSubclasses () {
+    public void testAddAllCountMapSubclasses() {
         CountMap<Fruit> destinationFruitCountMap = new HashCountMapImpl<>();
 
         destinationFruitCountMap.add(new Apple(2));
@@ -138,7 +138,7 @@ public class TestCountMap {
     }
 
     @Test
-    public void testAddAllCountMapOfSubclassesToParentMap () {
+    public void testAddAllCountMapOfSubclassesToParentMap() {
         CountMap<Eatable> destinationEatableCountMap = new HashCountMapImpl<>();
 
         destinationEatableCountMap.add(new Apple(2));
@@ -162,7 +162,7 @@ public class TestCountMap {
     }
 
     @Test
-    public void testToMap () {
+    public void testToMap() {
         CountMap<Fruit> sourceFruitCountMap = new HashCountMapImpl<>();
 
         sourceFruitCountMap.add(new Apple(2));
@@ -180,7 +180,7 @@ public class TestCountMap {
     }
 
     @Test
-    public void testToMapWithMapInArgument () {
+    public void testToMapWithMapInArgument() {
         Map<Fruit, Integer> fruitMap = new HashMap<>();
 
         CountMap<Fruit> sourceFruitCountMap = new HashCountMapImpl<>();
@@ -195,7 +195,7 @@ public class TestCountMap {
     }
 
     @Test
-    public void testToMapWithParentMapInArgument () {
+    public void testToMapWithParentMapInArgument() {
         Map<Eatable, Number> eatableMap = new HashMap<>();
 
         CountMap<Fruit> sourceFruitCountMap = new HashCountMapImpl<>();

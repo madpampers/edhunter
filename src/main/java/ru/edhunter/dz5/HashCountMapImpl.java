@@ -1,10 +1,25 @@
+/*
+ * (c) edhunter.ru 2017
+ */
 package ru.edhunter.dz5;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 
+/**
+ * Implementation of interface CountMap, based on HashMap.
+ *
+ * @param <K> any type of Class.
+ */
 public final class HashCountMapImpl<K> implements CountMap<K> {
+    /**
+     * Map, that contains all elements of countMap.
+     * */
     private final Map<K, Integer> countMap;
 
+    /**
+     * default constructor, initializes field countMap with new HashMap.
+     */
     HashCountMapImpl() {
         this.countMap = new HashMap<>();
     }

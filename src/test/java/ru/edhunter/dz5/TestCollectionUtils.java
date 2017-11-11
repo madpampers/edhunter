@@ -41,7 +41,7 @@ public class TestCollectionUtils {
     }
 
     @Test
-    public void testIndexOf(){
+    public void testIndexOf() {
         List<Fruit> fruits = new ArrayList<>();
         List<Apple> apples = new ArrayList<>();
         List<Eatable> eatables = new ArrayList<>();
@@ -54,19 +54,19 @@ public class TestCollectionUtils {
         fruits.add(bigPineapple);
         fruits.add(strangeFruit);
 
-        assertEquals(0, CollectionUtils.indexOf(fruits ,redApple));
-        assertEquals(1, CollectionUtils.indexOf(fruits ,bigPineapple));
-        assertEquals(2, CollectionUtils.indexOf(fruits ,strangeFruit));
+        assertEquals(0, CollectionUtils.indexOf(fruits, redApple));
+        assertEquals(1, CollectionUtils.indexOf(fruits, bigPineapple));
+        assertEquals(2, CollectionUtils.indexOf(fruits, strangeFruit));
 
         CollectionUtils.addAll(fruits, eatables);
 
-        assertEquals(0, CollectionUtils.indexOf(eatables ,redApple));
-        assertEquals(1, CollectionUtils.indexOf(eatables ,bigPineapple));
-        assertEquals(2, CollectionUtils.indexOf(eatables ,strangeFruit));
+        assertEquals(0, CollectionUtils.indexOf(eatables, redApple));
+        assertEquals(1, CollectionUtils.indexOf(eatables, bigPineapple));
+        assertEquals(2, CollectionUtils.indexOf(eatables, strangeFruit));
 
         apples.add(redApple);
 
-        assertEquals(0, CollectionUtils.indexOf(apples ,redApple));
+        assertEquals(0, CollectionUtils.indexOf(apples, redApple));
     }
 
     @Test
@@ -85,6 +85,38 @@ public class TestCollectionUtils {
         fruits = CollectionUtils.limit(apples, 2);
 
         assertEquals(2, fruits.size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeSizeParameterToLimitMethod() {
+        List<Fruit> fruits;
+        List<Apple> apples = new ArrayList<>();
+
+        Apple redApple = new Apple(3);
+        Apple greenApple = new Apple(3);
+        Apple smallRedApple = new Apple(1);
+
+        apples.add(redApple);
+        apples.add(greenApple);
+        apples.add(smallRedApple);
+
+        fruits = CollectionUtils.limit(apples, -2);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTooBigSizeParameterToLimitMethod() {
+        List<Fruit> fruits;
+        List<Apple> apples = new ArrayList<>();
+
+        Apple redApple = new Apple(4);
+        Apple greenApple = new Apple(1);
+        Apple smallRedApple = new Apple(7);
+
+        apples.add(redApple);
+        apples.add(greenApple);
+        apples.add(smallRedApple);
+
+        fruits = CollectionUtils.limit(apples, 99);
     }
 
     @Test
@@ -176,7 +208,7 @@ public class TestCollectionUtils {
     }
 
     @Test
-    public void testRangeComparable () {
+    public void testRangeComparable() {
         List<Apple> apples = new ArrayList<>();
 
         //CUCUMBERS ARE NOT COMPARABLE!!! :)
@@ -210,11 +242,11 @@ public class TestCollectionUtils {
     }
 
     @Test
-    public void testRangeComparator () {
+    public void testRangeComparator() {
         Comparator<Eatable> comparator = new Comparator<Eatable>() {
             @Override
             public int compare(Eatable o1, Eatable o2) {
-                return Integer.compare(o1.getTasteRating()+o1.getSize(), o2.getTasteRating()+o2.getSize());
+                return Integer.compare(o1.getTasteRating() + o1.getSize(), o2.getTasteRating() + o2.getSize());
             }
         };
 
@@ -226,7 +258,7 @@ public class TestCollectionUtils {
         pineapples.add(new Pineapple(1, 4));
         pineapples.add(new Pineapple(2, 4));
         pineapples.add(new Pineapple(3, 3));
-        pineapples.add(new Pineapple(4,2));
+        pineapples.add(new Pineapple(4, 2));
         pineapples.add(new Pineapple(5, 2));
         pineapples.add(new Pineapple(5, 3));
         pineapples.add(new Pineapple(5, 4));
