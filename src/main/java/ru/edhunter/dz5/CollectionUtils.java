@@ -21,7 +21,7 @@ public final class CollectionUtils {
     /**
      * Adds all elements from source List to destination List.
      *
-     * @param <T>         the class of the elements to add and of the List.
+     * @param <T>         the class of Lists elements.
      * @param source      list from which elements are to be inserted.
      * @param destination list into which elements are to be inserted.
      */
@@ -54,7 +54,7 @@ public final class CollectionUtils {
     /**
      * Returns sublist of source List.
      *
-     * @param <T>    the class of the elements of List.
+     * @param <T>    the class of List elements.
      * @param source List, in which will be limit.
      * @param size   size List, to whic list will be cut.
      * @return List, which size is limits to 'size' argument, it contains all elements from
@@ -75,7 +75,7 @@ public final class CollectionUtils {
     /**
      * Adds element 'o' to provided List.
      *
-     * @param <T>    the class of the elements of List.
+     * @param <T>    the class of List elements.
      * @param source List, to which will 'o' be added.
      * @param o      element, that will be inserted to List.
      */
@@ -86,7 +86,7 @@ public final class CollectionUtils {
     /**
      * Removes all elements from 'removeFrom' List, that List 'c2' contains.
      *
-     * @param <T>        the class of the elements of List.
+     * @param <T>        the class of List elements.
      * @param removeFrom List, from which elements will be deleted.
      * @param c2         List, containing elements to be removed from 'removeFrom' list.
      */
@@ -97,7 +97,7 @@ public final class CollectionUtils {
     /**
      * Returns true if this list contains all of the elements of the specified list.
      *
-     * @param <T>           the class of the elements of List.
+     * @param <T>           the class of List elements.
      * @param whichContains List, which elements checked for containing elements from List 'c'.
      * @param c             List to be checked for containment in this list.
      * @return true if 'whichContains' list contains all of the elements of the specified list
@@ -109,7 +109,7 @@ public final class CollectionUtils {
     /**
      * Returns true if this list contains any of the elements of the specified list.
      *
-     * @param <T>           the class of the elements of List.
+     * @param <T>           the class of List elements.
      * @param whichContains List, which elements checked for containing elements from List 'c'.
      * @param c             List to be checked for containment in this list.
      * @return true if 'whichContains' list contains any of the elements of the specified list
@@ -127,7 +127,7 @@ public final class CollectionUtils {
      * Returns List, which elements are in range from 'min' to 'max' (included). Elements of list must imlement
      * interface 'Comparable', to be compared with min and max elements.
      *
-     * @param <T>  the class of the elements of List.
+     * @param <T>  the class of List elements.
      * @param list List, which elements checked to match range of 'min' to 'max'.
      * @param min  minimal element, that acceptable for result List.
      * @param max  maximal element, that acceptable for result List.
@@ -146,7 +146,7 @@ public final class CollectionUtils {
     /**
      * Returns List, which elements are in range from 'min' to 'max' (included).
      *
-     * @param <T>        the class of the elements of List.
+     * @param <T>        the class of List elements.
      * @param list       List, which elements checked to match range of 'min' to 'max'.
      * @param min        minimal element, that acceptable for result List.
      * @param max        maximal element, that acceptable for result List.
@@ -166,7 +166,7 @@ public final class CollectionUtils {
     /**
      * private method-helper, that creates new instance of List, based on instanceOF of specified list.
      *
-     * @param <T>  the class of the elements of List.
+     * @param <T>  the class of List elements.
      * @param list instance of list, which checked for being instance of what implementation it is.
      * @return new instance of List, based on instanceOF of specified list.
      */

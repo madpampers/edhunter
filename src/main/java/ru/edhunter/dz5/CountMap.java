@@ -9,7 +9,7 @@ import java.util.Map;
  * Interface for Map, that contains entries Key-Value, where Key element of any type,
  * and Value - count of times, that element was placed in CountMap.
  *
- * @param <K> - type of Key;
+ * @param <K> - class of keys;
  */
 public interface CountMap<K> {
     /**

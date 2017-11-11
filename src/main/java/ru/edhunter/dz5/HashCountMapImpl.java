@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Implementation of interface CountMap, based on HashMap.
  *
- * @param <K> any type of Class.
+ * @param <K> class of Keys.
  */
 public final class HashCountMapImpl<K> implements CountMap<K> {
     /**
