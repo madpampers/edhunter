@@ -104,7 +104,7 @@ public class TestCollectionUtils {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testTooBigSizeParameterToLimitMethod() {
+    public void testIncorrectParametersToLimitMethod() {
         List<Fruit> fruits;
         List<Apple> apples = new ArrayList<>();
 
@@ -211,18 +211,6 @@ public class TestCollectionUtils {
     public void testRangeComparable() {
         List<Apple> apples = new ArrayList<>();
 
-        //CUCUMBERS ARE NOT COMPARABLE!!! :)
-//        List<Cucumber> cucumbers = new ArrayList<>();
-//
-//        cucumbers.add(new Cucumber(1));
-//        cucumbers.add(new Cucumber(2));
-//        cucumbers.add(new Cucumber(3));
-//        cucumbers.add(new Cucumber(4));
-//        cucumbers.add(new Cucumber(5));
-//
-//        Cucumber minCucum = new Cucumber(2);
-//        Cucumber maxCucum = new Cucumber(4);
-
         apples.add(new Apple(1));
         apples.add(new Apple(2));
         apples.add(new Apple(3));
@@ -234,8 +222,6 @@ public class TestCollectionUtils {
 
         List<Apple> mediumApples = CollectionUtils.range(apples, minimumApple, maximumApple);
         List<Fruit> mediumFruits = CollectionUtils.range(apples, minimumApple, maximumApple);
-
-//        List<Vegetables> vegetables = CollectionUtils.range(cucumbers, minCucum, maxCucum);
 
         assertEquals(3, mediumApples.size());
         assertEquals(3, mediumFruits.size());
